@@ -1,0 +1,10 @@
+﻿{
+  "ValuesServiceConfig": [
+    {
+      "ValuesServiceClientImpl": "XmlClient",
+      "ValuesJsonDataSource": "Values.json",
+      "ValuesXmlDataSource": "Values.xml",
+      "ValuesTextDataSource": "Values.txt"
+    }
+  ]
+}

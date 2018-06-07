@@ -1,0 +1,2 @@
+﻿"Value 1 from Text format"
+"Value 2 from Text format"

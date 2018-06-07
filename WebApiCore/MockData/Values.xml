@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Values>
+  <value id="1" desc="Value 1 from xml format" />
+  <value id="2" desc="Value 2 from xml format" />
+</Values>
