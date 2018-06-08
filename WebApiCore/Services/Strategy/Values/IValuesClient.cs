@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApiCore.Services.Strategy.Values
 {
     public interface IValuesClient
     {
-        IEnumerable<string> MakeRequest();
+        Task<IEnumerable<string>> MakeRequest();
     }
 }

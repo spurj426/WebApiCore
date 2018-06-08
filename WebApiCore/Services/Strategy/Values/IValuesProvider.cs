@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApiCore.Services.Strategy.Values
 {
@@ -9,6 +10,6 @@ namespace WebApiCore.Services.Strategy.Values
         // The IValuesClient simply provides the interface on the service to be called.
         // The IValuesProvider is a class that will encapsulate the implementation details.
         // For example, you could have a file system provider, and http requestor provider, etc.
-        IEnumerable<string> FetchData();
+        Task<IEnumerable<string>> FetchData();
     }
 }

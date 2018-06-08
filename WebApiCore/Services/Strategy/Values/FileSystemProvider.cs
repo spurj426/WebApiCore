@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -20,18 +21,30 @@ namespace WebApiCore.Services.Strategy.Values
             _valuesMapper = mapper;
         }
 
-        public IEnumerable<string> FetchData()
+        public async Task<IEnumerable<string>> FetchData()
         {
-            var file = LoadFile().Result;
+            var file = await LoadFile();
             return _valuesMapper.MapResponse(file);
         }
 
         private async Task<object> LoadFile()
         {
-            using (var sr = new StreamReader(_options.Value.FileSystemDataSource))
+            try
             {
-                return await sr.ReadToEndAsync();
+                using (var sr = new StreamReader(_options.Value.FileSystemDataSource))
+                {
+                    return await sr.ReadToEndAsync();
+                }
             }
+            catch (ArgumentException aex)
+            {
+                throw new ArgumentException(aex.Message);
+            }
+            catch (FileNotFoundException fex)
+            {
+                throw new FileNotFoundException(fex.Message);
+            }
+            
         }
     }
 }

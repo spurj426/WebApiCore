@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApiCore.Services.Strategy.Values
 {
@@ -11,7 +12,7 @@ namespace WebApiCore.Services.Strategy.Values
             _valuesProvider = valuesProvider;
         }
 
-        public IEnumerable<string> MakeRequest()
+        public Task<IEnumerable<string>> MakeRequest()
         {
             return _valuesProvider.FetchData();
         }

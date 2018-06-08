@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebApiCore.Interfaces;
 using WebApiCore.Services.Factory;
 using WebApiCore.Services.Strategy.Values;
@@ -15,7 +16,7 @@ namespace WebApiCore.Services
             _clientFactory = clientFactory;
         }
 
-        public IEnumerable<string> GetValues()
+        public Task<IEnumerable<string>> GetValues()
         {
             // We have two options.
             // (1) Wireup the Values Client via IoC with a specific implementation

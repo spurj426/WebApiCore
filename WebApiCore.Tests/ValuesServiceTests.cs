@@ -1,5 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Microsoft.Extensions.Options;
+using Moq;
+using WebApiCore.Services.Config;
 using WebApiCore.Services.Strategy.Values;
 using Xunit;
 
@@ -62,8 +67,26 @@ namespace WebApiCore.Tests
 
         #endregion
 
-        #region TextMapper
+        #region FileSystemProvider
 
+        [Fact]
+        public async void FileSystemProvider_MissingFilePath_ThrowsFileNotFoundException()
+        {
+            var jsonValueServiceConfig = new ValuesServiceConfig
+            {
+                Mapper = ValuesServiceMapper.Json,
+                Provider = ValuesServiceProvider.FileSystem,
+                FileSystemDataSource = string.Empty
+            };
+
+            var jsonMock = new Mock<IOptions<ValuesServiceConfig>>();
+            // We need to set the Value of IOptions to be the SampleOptions Class
+            jsonMock.Setup(ap => ap.Value).Returns(jsonValueServiceConfig);
+
+            var jsonFileSystemProvider = new FileSystemProvider(jsonMock.Object, new JsonMapper());
+
+            await Assert.ThrowsAsync<ArgumentException>(() => jsonFileSystemProvider.FetchData());
+        }
 
         #endregion
     }
