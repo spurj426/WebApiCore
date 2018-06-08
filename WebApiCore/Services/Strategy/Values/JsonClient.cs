@@ -13,7 +13,7 @@ namespace WebApiCore.Services.Strategy.Values
 
         public IEnumerable<string> MakeRequest()
         {
-            return _valuesProvider.MakeRequest();
+            return _valuesProvider.FetchData();
         }
 
     }

@@ -6,6 +6,9 @@ using WebApiCore.Services.Config;
 
 namespace WebApiCore.Services.Strategy.Values
 {
+    /// <summary>
+    /// Provides the actual implementation for making requests from the client.
+    /// </summary>
     public class FileSystemProvider : IValuesProvider
     {
         private readonly IOptions<ValuesServiceConfig> _options;
@@ -17,7 +20,7 @@ namespace WebApiCore.Services.Strategy.Values
             _valuesMapper = mapper;
         }
 
-        public IEnumerable<string> MakeRequest()
+        public IEnumerable<string> FetchData()
         {
             var file = LoadFile().Result;
             return _valuesMapper.MapResponse(file);
