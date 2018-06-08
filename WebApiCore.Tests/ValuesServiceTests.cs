@@ -28,7 +28,7 @@ namespace WebApiCore.Tests
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
-        private static readonly string JsonSimpleObject = "{\r\n  \"Value1\": \"Value 1 from json format\",\r\n  \"Value2\": \"Value 2 from json format\"\r\n}";
+        private static readonly string JsonSimpleObject = "{\r\n \"Value1\": \"Value 1 from json format\",\r\n  \"Value2\": \"Value 2 from json format\"\r\n}";
         private static readonly List<string> JsonEnumerableStringResult = new List<string> { "Value 1 from json format", "Value 2 from json format" };
         #endregion
 
