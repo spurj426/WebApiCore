@@ -79,11 +79,11 @@ namespace WebApiCore.Tests
                 FileSystemDataSource = string.Empty
             };
 
-            var jsonMock = new Mock<IOptions<ValuesServiceConfig>>();
+            var mockConfig = new Mock<IOptions<ValuesServiceConfig>>();
             // We need to set the Value of IOptions to be the SampleOptions Class
-            jsonMock.Setup(ap => ap.Value).Returns(jsonValueServiceConfig);
+            mockConfig.Setup(x => x.Value).Returns(jsonValueServiceConfig);
 
-            var jsonFileSystemProvider = new FileSystemProvider(jsonMock.Object, new JsonMapper());
+            var jsonFileSystemProvider = new FileSystemProvider(mockConfig.Object, new JsonMapper());
 
             await Assert.ThrowsAsync<ArgumentException>(() => jsonFileSystemProvider.FetchData());
         }
@@ -96,13 +96,13 @@ namespace WebApiCore.Tests
                 Mapper = ValuesServiceMapper.Json,
                 Provider = ValuesServiceProvider.FileSystem,
                 FileSystemDataSource = @"C:\Workspace\WebApiCore\WebApiCore\MockData\ValuesNotFound.json"
-        };
+            };
 
-            var jsonMock = new Mock<IOptions<ValuesServiceConfig>>();
+            var mockConfig = new Mock<IOptions<ValuesServiceConfig>>();
             // We need to set the Value of IOptions to be the SampleOptions Class
-            jsonMock.Setup(ap => ap.Value).Returns(jsonValueServiceConfig);
+            mockConfig.Setup(x => x.Value).Returns(jsonValueServiceConfig);
 
-            var jsonFileSystemProvider = new FileSystemProvider(jsonMock.Object, new JsonMapper());
+            var jsonFileSystemProvider = new FileSystemProvider(mockConfig.Object, new JsonMapper());
 
             await Assert.ThrowsAsync<FileNotFoundException>(() => jsonFileSystemProvider.FetchData());
         }

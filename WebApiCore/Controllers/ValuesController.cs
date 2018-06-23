@@ -12,7 +12,7 @@ namespace WebApiCore.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private readonly IValuesService _valuesService = null;
+        private readonly IValuesService _valuesService;
 
         public ValuesController(IValuesService valuesService)
         {

@@ -8,8 +8,8 @@ namespace WebApiCore.Services
 {
     public class ValuesService : IValuesService
     {
-        private readonly IClientFactory _clientFactory = null;
-        private IValuesClient _valuesClient = null;
+        private readonly IClientFactory _clientFactory;
+        private IValuesClient _valuesClient;
 
         public ValuesService(IClientFactory clientFactory)
         {

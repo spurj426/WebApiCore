@@ -7,7 +7,7 @@ namespace WebApiCore.Services.Factory
 {
     public class ClientFactory : IClientFactory
     {
-        private readonly IOptions<ValuesServiceConfig> _valuesServiceOptions = null;
+        private readonly IOptions<ValuesServiceConfig> _valuesServiceOptions;
 
         public ClientFactory(IOptions<ValuesServiceConfig> valuesServiceOptions)
         {
@@ -24,16 +24,15 @@ namespace WebApiCore.Services.Factory
                 // like https Url, success and error code mapper / translators, logging, etc.
                 switch (_valuesServiceOptions.Value.Mapper)
                 {
+                    // IMPORTANT:  The Clients are bootstrapped here -> notice the Json and Xml clients do not
+                    // take a mapper of type json or xml directly:  The provider we are passing in does.
                     case ValuesServiceMapper.Xml:
                         return new XmlClient(new FileSystemProvider(_valuesServiceOptions, new XmlMapper()));
                     default:
                         return new JsonClient(new FileSystemProvider(_valuesServiceOptions, new JsonMapper()));
                 }
             }
-            else
-            {
-                throw new ArgumentException("Only the Values Service File System provider supported at this time");
-            }
+            throw new ArgumentException("Only the Values Service File System provider supported at this time");
         }
                 
     }

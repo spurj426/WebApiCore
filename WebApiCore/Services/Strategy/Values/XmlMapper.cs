@@ -14,7 +14,7 @@ namespace WebApiCore.Services.Strategy.Values
         {
             List<string> values = new List<string>();
 
-            XPathDocument xPathDoc = null;
+            XPathDocument xPathDoc;
 
             var ms =
                 new MemoryStream(System.Text.Encoding.UTF8.GetBytes(HttpUtility.HtmlDecode(input.ToString())));
