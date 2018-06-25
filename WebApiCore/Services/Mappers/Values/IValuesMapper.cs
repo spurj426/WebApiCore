@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebApiCore.Services.Strategy.Values
+namespace WebApiCore.Services.Mappers.Values
 {
     public interface IValuesMapper
     {

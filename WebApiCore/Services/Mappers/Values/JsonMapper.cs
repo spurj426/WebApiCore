@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-namespace WebApiCore.Services.Strategy.Values
+namespace WebApiCore.Services.Mappers.Values
 {
     /// <summary>
     /// The json mapper has a schema dependency which must be known in advance.

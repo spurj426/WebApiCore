@@ -5,12 +5,13 @@ using System.IO;
 using Microsoft.Extensions.Options;
 using Moq;
 using WebApiCore.Services.Config;
-using WebApiCore.Services.Strategy.Values;
+using WebApiCore.Services.Mappers.Values;
+using WebApiCore.Services.Providers.Values;
 using Xunit;
 
 namespace WebApiCore.Tests
 {
-    public class MapperTests
+    public class ValuesServiceTests
     {
         #region JsonMapper
 
@@ -76,7 +77,7 @@ namespace WebApiCore.Tests
             {
                 Mapper = ValuesServiceMapper.Json,
                 Provider = ValuesServiceProvider.FileSystem,
-                FileSystemDataSource = string.Empty
+                DataSource = string.Empty
             };
 
             var mockConfig = new Mock<IOptions<ValuesServiceConfig>>();
@@ -95,7 +96,7 @@ namespace WebApiCore.Tests
             {
                 Mapper = ValuesServiceMapper.Json,
                 Provider = ValuesServiceProvider.FileSystem,
-                FileSystemDataSource = @"C:\Workspace\WebApiCore\WebApiCore\MockData\ValuesNotFound.json"
+                DataSource = @"C:\Workspace\WebApiCore\WebApiCore\MockData\ValuesNotFound.json"
             };
 
             var mockConfig = new Mock<IOptions<ValuesServiceConfig>>();

@@ -3,7 +3,7 @@ using System.IO;
 using System.Web;
 using System.Xml.XPath;
 
-namespace WebApiCore.Services.Strategy.Values
+namespace WebApiCore.Services.Mappers.Values
 {
     /// <summary>
     /// The Xml mapper has a schema dependency which must be known in advance.

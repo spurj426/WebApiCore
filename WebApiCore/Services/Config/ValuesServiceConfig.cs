@@ -5,11 +5,9 @@
     /// </summary>
     public class ValuesServiceConfig
     {
-        public ValuesServiceConfig() { }
         public ValuesServiceMapper Mapper { get; set; } = ValuesServiceMapper.Json;
         public ValuesServiceProvider Provider { get; set; } = ValuesServiceProvider.FileSystem;
-        public string FileSystemDataSource { get; set; } = string.Empty;
-        public string Uri { get; set; } = string.Empty;
+        public string DataSource { get; set; } = string.Empty;
     }
 
     public enum ValuesServiceMapper

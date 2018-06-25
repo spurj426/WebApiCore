@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApiCore.Services.Providers.Values;
 
 namespace WebApiCore.Services.Strategy.Values
 {
-    public class JsonClient : IValuesClient
+    public class ValuesClient : IValuesClient
     {
         private readonly IValuesProvider _valuesProvider;
 
-        public JsonClient(IValuesProvider valuesProvider)
+        public ValuesClient(IValuesProvider valuesProvider)
         {
             _valuesProvider = valuesProvider;
         }
@@ -16,6 +17,5 @@ namespace WebApiCore.Services.Strategy.Values
         {
             return _valuesProvider.FetchData();
         }
-
     }
 }

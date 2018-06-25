@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Extensions.Options;
 using WebApiCore.Services.Config;
+using WebApiCore.Services.Mappers.Values;
+using WebApiCore.Services.Providers.Values;
 using WebApiCore.Services.Strategy.Values;
 
 namespace WebApiCore.Services.Factory
@@ -27,9 +29,9 @@ namespace WebApiCore.Services.Factory
                     // IMPORTANT:  The Clients are bootstrapped here -> notice the Json and Xml clients do not
                     // take a mapper of type json or xml directly:  The provider we are passing in does.
                     case ValuesServiceMapper.Xml:
-                        return new XmlClient(new FileSystemProvider(_valuesServiceOptions, new XmlMapper()));
+                        return new ValuesClient(new FileSystemProvider(_valuesServiceOptions, new XmlMapper()));
                     default:
-                        return new JsonClient(new FileSystemProvider(_valuesServiceOptions, new JsonMapper()));
+                        return new ValuesClient(new FileSystemProvider(_valuesServiceOptions, new JsonMapper()));
                 }
             }
             throw new ArgumentException("Only the Values Service File System provider supported at this time");

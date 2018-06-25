@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace WebApiCore.Services.Strategy.Values
+namespace WebApiCore.Services.Providers.Values
 {
     public interface IValuesProvider
     {

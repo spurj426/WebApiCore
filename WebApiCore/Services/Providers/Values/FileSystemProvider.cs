@@ -4,8 +4,9 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using WebApiCore.Services.Config;
+using WebApiCore.Services.Mappers.Values;
 
-namespace WebApiCore.Services.Strategy.Values
+namespace WebApiCore.Services.Providers.Values
 {
     /// <summary>
     /// Provides the actual implementation for making requests from the client.
@@ -31,7 +32,7 @@ namespace WebApiCore.Services.Strategy.Values
         {
             try
             {
-                using (var sr = new StreamReader(_options.Value.FileSystemDataSource))
+                using (var sr = new StreamReader(_options.Value.DataSource))
                 {
                     return await sr.ReadToEndAsync();
                 }
