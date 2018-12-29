@@ -1,15 +1,14 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebApiCore.Common.Config;
 using WebApiCore.Config;
-using WebApiCore.Interfaces;
+using WebApiCore.Data.Repositories;
 using WebApiCore.Services;
-using WebApiCore.Services.Config;
-using WebApiCore.Services.Factory;
+using WebApiCore.Services.Providers;
 
 namespace WebApiCore
 {
@@ -17,12 +16,7 @@ namespace WebApiCore
     {
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = Common.Infrastructure.ConfigurationRoot.GetIConfigurationRoot(env);
         }
 
         // Autofac support
@@ -36,23 +30,29 @@ namespace WebApiCore
         {
             services.AddOptions();
 
-            // Leveraging built in NET CORE IoC for Configurations derived from appsettings
-            var versioningConfigSection = Configuration.GetSection("ApiVersioningConfig");
-            services.Configure<ApiVersioningConfig>(versioningConfigSection);
+            // Does not work with IOptions IoC
+            //var valuesConfig = Common.Infrastructure.ConfigHelper<ValuesServiceConfig>.GetConfig("ValuesServiceConfig");
+            //services.AddSingleton(valuesConfig);
 
+            // Works with IOptions IoC
             var valuesConfigSection = Configuration.GetSection("ValuesServiceConfig");
             services.Configure<ValuesServiceConfig>(valuesConfigSection);
-            
 
-            services.AddLogging();
+            services.AddLogging(builder =>
+            {
+                builder.AddConfiguration(Configuration.GetSection("Logging"))
+                    .AddConsole()
+                    .AddDebug();
+            });
             //services.AddMemoryCache();
             //services.AddDistributedMemoryCache();
 
+            var apiVersionConfig = Common.Infrastructure.ConfigHelper<ApiVersionConfig>.GetConfig("ApiVersionConfig");
             services.AddApiVersioning(v =>
             {
-                v.ReportApiVersions = true;
-                v.AssumeDefaultVersionWhenUnspecified = true;
-                v.DefaultApiVersion = new ApiVersion(1, 0);
+                v.ReportApiVersions = apiVersionConfig.ReportApiVersions;
+                v.AssumeDefaultVersionWhenUnspecified = apiVersionConfig.AssumeDefaultVersionWhenUnspecified;
+                v.DefaultApiVersion = apiVersionConfig.DefaultApiVersion;
             });
 
             // Note:  Internet Explorer doesn't consider the port when comparing origins.  Test with Chrome.
@@ -83,19 +83,21 @@ namespace WebApiCore
 
             
             // Configure Containers (Please in this order)
-            // This is used only to select provider (Client) at runtime or via configuration.
-            services.AddSingleton<IClientFactory, ClientFactory>();
-            services.AddSingleton<IValuesService, ValuesService>();
+            services.AddTransient<IFileSystemProvider, FileSystemProvider>();
+            services.AddTransient<IValuesService, ValuesService>();
+            services.AddSingleton<IValuesRepository, ValuesRepository>();
 
-            //// Autofac support: Create the container builder
+            /// Autofac support: Create the container builder
             //var builder = new ContainerBuilder();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env /*, ILoggerFactory loggerFactory */)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             // Must be called before app.UseMvc();
             app.UseCors("AllowAllOrigins");

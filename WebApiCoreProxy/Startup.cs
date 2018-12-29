@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NetEscapades.AspNetCore.SecurityHeaders;
 using Newtonsoft.Json.Serialization;
 
 
@@ -40,15 +39,19 @@ namespace WebApiCoreProxy
                     var resolver = opt.SerializerSettings.ContractResolver as DefaultContractResolver;
                     resolver.NamingStrategy = new CamelCaseNamingStrategy();
                 }
-            }); ;
+            });
+
+            services.AddLogging(builder =>
+            {
+                builder.AddConfiguration(Configuration.GetSection("Logging"))
+                    .AddConsole()
+                    .AddDebug();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             // Security
             var policyCollection = new HeaderPolicyCollection()         // NetEscapades.AspNetCore.SecurityHeaders
                 .AddFrameOptionsSameOrigin()                            // prevent click-jacking

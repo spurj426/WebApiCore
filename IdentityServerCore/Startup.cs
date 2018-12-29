@@ -27,7 +27,6 @@ namespace IdentityServerCore
             }
 
             app.UseIdentityServer();
-
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }

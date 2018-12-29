@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MvcClient.Security.Config;
-using NetEscapades.AspNetCore.SecurityHeaders;
 
 namespace MvcClient
 {
